@@ -1,38 +1,51 @@
 # ETH Balance Checker for BAYC Holders
 
-A Node.js application that calculates the total ETH balance held by all Bored Ape Yacht Club (BAYC) NFT holders at a specific point in time.
+Calculate total ETH balance held by all BAYC NFT holders at a specific point in time.
 
-## Features
+## Setup
 
-- Fetches all current BAYC NFT holders
-- Retrieves ETH balances at a specific block/timestamp
-- Handles API rate limiting with retry logic
-- Batch processing for optimal performance
-- Progress tracking during execution
-
-## Prerequisites
-
-- Node.js (version 14 or higher)
-- npm or yarn package manager
-- Alchemy API key
-- Etherscan API key
-
-## Installation
-
-1. Clone the repository:
+1. Install dependencies:
 ```bash
-git clone <your-repo-url>
-cd eth-checker
+npm install dotenv alchemy-sdk ethers axios
 ```
 
-2. Install dependencies:
-```bash
-npm install
+2. Create `.env` file:
+```env
+ALCHEMY_API_KEY=your_alchemy_api_key_here
+ETHEREUM_RPC=https://eth-mainnet.g.alchemy.com/v2/your_alchemy_api_key_here
+ETHERSCAN_API_KEY=your_etherscan_api_key_here
 ```
 
-3. Create a `.env` file in the root directory:
+## Usage
+
 ```bash
-cp .env.example .env
+node index.js <epoch_timestamp>
 ```
 
-4. Add your API keys to the `.env` file: 
+Example:
+```bash
+node index.js 1640995200  # January 1, 2022
+```
+
+## API Keys
+
+- **Alchemy**: [alchemy.com](https://www.alchemy.com/) - Create app on Ethereum Mainnet
+- **Etherscan**: [etherscan.io](https://etherscan.io/) - Generate API key in profile
+
+## Output
+
+```
+Converting epoch 1640995200 to block number...
+Block number: 13916165
+Fetching all BAYC holders...
+Found 5502 holders
+Fetching ETH balances at block 13916165...
+Checked 5502 of 5502 holders...
+Total ETH held by BAYC holders at epoch 1640995200: 88172.4100 ETH
+```
+
+## Notes
+
+- Processes ~5500 addresses in 3-5 minutes
+- Handles API rate limits automatically
+- Returns 0 for failed address lookups
